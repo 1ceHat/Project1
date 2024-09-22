@@ -1,6 +1,5 @@
 import data_download as dd
 import data_plotting as dplt
-import data_avarage_price as dav
 
 
 def main():
@@ -10,8 +9,8 @@ def main():
 
     # ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
     # period = input("Введите период для данных (например, '1mo' для одного месяца): ")
-    ticker = 'MSFT'
-    period = '1y'
+    ticker = 'AMZN'
+    period = '1mo'
 
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker, period)
@@ -23,7 +22,11 @@ def main():
     dplt.create_and_save_plot(stock_data, ticker, period)
 
     # Print out average sum prices
-    dav.calculate_and_display_average_price(stock_data)
+    dd.calculate_and_display_average_price(stock_data)
+
+    # Prin notify
+    dd.notify_if_strong_fluctuations(stock_data, 1)
+
 
 if __name__ == "__main__":
     main()
