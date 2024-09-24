@@ -1,5 +1,5 @@
 import yfinance as yf
-import time
+from time import time
 
 
 def fetch_stock_data(ticker, period='1mo'):
@@ -21,7 +21,15 @@ def calculate_and_display_average_price(data):
 
 
 # Count divination of price and notify, if threshold is more than divination
-def notify_if_strong_fluctuations(data, threshold):
+def notify_if_strong_fluctuations(data, threshold = 5):
+    '''
+    Function analyzes closing prices dataframe by mathematical statistic's instruments and notify if price fluctuation was more than current threshold.
+    First, aligns the prices in the frame. Next, calculates the mathematical average.
+    Then calculates dispersion and price percentage fluctuation.
+    :param data: The dataframe of closing prices
+    :param threshold: Percentage of price fluctuation
+    '''
+
     # Fetch necessary information
     data_prices = list(data['Close'].iloc)
     len_data = len(data_prices)
@@ -49,3 +57,10 @@ def notify_if_strong_fluctuations(data, threshold):
     standard_divination = round((dispersion ** 0.5) * 100 / mat_expectation, 3)
     if threshold < standard_divination:
         print(f'Цена колебалась больше заданного процента! Текущее колебание цены за период: {standard_divination}%')
+    else:
+        print(f'Цена не колебалась выше {threshold}%. Текущее колебание цены за период: {standard_divination}%')
+
+
+def export_data_to_csv(data, file):
+    data.to_csv(encoding='utf-8', path_or_buf=file)
+    print(f'Data successfully exported to {file}')
