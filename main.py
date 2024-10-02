@@ -7,10 +7,10 @@ def main():
     print("Вот несколько примеров биржевых тикеров, которые вы можете рассмотреть: AAPL (Apple Inc), GOOGL (Alphabet Inc), MSFT (Microsoft Corporation), AMZN (Amazon.com Inc), TSLA (Tesla Inc).")
     print("Общие периоды времени для данных о запасах включают: 1д, 5д, 1мес, 3мес, 6мес, 1г, 2г, 5г, 10л, с начала года, макс.")
 
-    ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
-    period = input("Введите период для данных (например, '1mo' для одного месяца): ")
-    # ticker = 'AMZN'
-    # period = '1mo'
+    # ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
+    # period = input("Введите период для данных (например, '1mo' для одного месяца): ")
+    ticker = 'MSFT'
+    period = '3mo'
 
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker, period)
@@ -33,6 +33,18 @@ def main():
         file = input('Введите название файла (можно оставить пустым)')
         file = file if file != '' else f'{ticker}_{period}_stock_price_chart.csv'
         dd.export_data_to_csv(stock_data, file)
+
+    # Add EMA indicator to DataFrame. Uncomment ema_ind to show plot
+    stock_data, ema_ind = dd.add_exponential_moving_average(stock_data, create_plot=True)
+    # ema_ind()
+
+    # Add RSI indicator to DataFrame. Uncomment rsi_ind to show plot
+    stock_data, rsi_ind = dd.add_relative_strength_index(stock_data, create_plot=True)
+    # rsi_ind()
+
+    # Add MACD indicator to DataFrame. Uncomment macd_ind to show plot
+    stock_data, macd_ind = dd.add_moving_average_convergence_divergence(stock_data, create_plot=True)
+    # macd_ind()
 
 
 if __name__ == "__main__":
