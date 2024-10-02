@@ -26,17 +26,21 @@ You can check prices for:
 </table>
 <div>
     To view price analysis you need start program, select ticker and period.<br>
-    <img src="start.png" >
+    ![start](https://github.com/user-attachments/assets/62803be6-1c73-4aeb-a928-c8e3692cb647)
+
 </div>
 <div>
     After that you'll get price chart like that.<br>
-    <img src="GOOGL_1mo_stock_price_chart.png" width="400">
+    ![GOOGL_1mo_stock_price_chart](https://github.com/user-attachments/assets/cf271a66-88ff-4c0f-948c-c30462e5316e)
+
 </div>
 <div>
     Then you can input price or leave default threshold to compare to see the higher or lower price fluctuation.<br>
-    <img src="threshold.png">
+    ![threshold](https://github.com/user-attachments/assets/6cbb0d7c-06fa-469b-9791-a75cfc692f5e)
+
 </div>
 <div>
 Also, you can export price data to CSV file.
-<img src="export_to_csv.png">
+![export_to_csv](https://github.com/user-attachments/assets/416a74cc-4e97-42e6-82c0-0b5b306ccec7)
+
 </div>
