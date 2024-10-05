@@ -8,13 +8,27 @@ def main():
     print("Общие периоды времени для данных о запасах включают: 1д, 5д, 1мес, 3мес, 6мес, 1г, 2г, 5г, 10л, с начала года, макс.")
 
     # ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
-    # period = input("Введите период для данных (например, '1mo' для одного месяца): ")
+    period = input("Введите период для данных (например, '1mo' для одного месяца) или даты в формате ГГГГ-ММ-ДД через пробел (по умолчанию конец - сегодня): ").split(' ')
     ticker = 'MSFT'
-    period = '3mo'
+    if len(period) == 2:
+        period = {'start_period': period[0], 'end_period': period[1]}
+    elif len(period) == 1:
+        if '-' in period[0]:
+            period = {'start_period': period[0]}
+            # stock_data = dd.fetch_stock_data(ticker, start_period=period[0])
+        else:
+            period = {'period': period[0]}
+            # stock_data = dd.fetch_stock_data(ticker, period=period[0])
+    else:
+        print('Введите корректный период или диапазон дат')
+        return None
+
+    # start_period = '2001-10-30'
+    # end_period = 'now'
 
     # Fetch stock data
-    stock_data = dd.fetch_stock_data(ticker, period)
-
+    stock_data = dd.fetch_stock_data(ticker, **period)
+    period = '--'.join(map(str, period.values()))
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
 

@@ -1,22 +1,30 @@
+import pandas as pd
 import yfinance as yf
 from matplotlib import pyplot as plt
 from time import time
 from pprint import pprint
 
 
-def fetch_stock_data(ticker, period='1mo'):
+def fetch_stock_data(ticker, period='1mo', start_period=None, end_period=None):
     stock = yf.Ticker(ticker)
-    data = stock.history(period=period)
+    data = None
+    if start_period is not None:
+        if end_period is not None:
+            data = stock.history(start=start_period, end=end_period)
+        else:
+            data = stock.history(start=start_period)
+    elif period is not None:
+        data = stock.history(period=period)
     return data
 
 
-def add_moving_average(data, window_size=5):
+def add_moving_average(data: pd.DataFrame, window_size=5):
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
     return data
 
 
 # Add EMA indicator
-def add_exponential_moving_average(data, window_size=5, create_plot=False):
+def add_exponential_moving_average(data: pd.DataFrame, window_size=5, create_plot=False):
     '''
     Function adding EMA indicator.
     :param data: data to analysis
@@ -50,7 +58,7 @@ def add_exponential_moving_average(data, window_size=5, create_plot=False):
 
 
 # Add RSI indicator
-def add_relative_strength_index(data, window_size=5, high_level=80, low_level=20, create_plot=False):
+def add_relative_strength_index(data: pd.DataFrame, window_size=5, high_level=80, low_level=20, create_plot=False):
     '''
     Function adding RSI indicator.
     :param data: data to analysis
@@ -91,18 +99,21 @@ def add_relative_strength_index(data, window_size=5, high_level=80, low_level=20
 
 
 # Add MACD indicator
-def add_moving_average_convergence_divergence(data, fast_macd=12, slow_macd=26, indicator_macd=9, create_plot=False):
+def add_moving_average_convergence_divergence(data: pd.DataFrame, fast_macd=12, slow_macd=26, indicator_macd=9, create_plot=False):
     '''
     Function analysing price and return MACD indicators.
     :param data: data to analysis
     :param fast_macd: period for Fast MACD
     :param slow_macd: period for Slow MACD
     :param indicator_macd: period for Indicator MACD
+    :param create_plot: default False, if True will make a plot and return it
     :return: DataFrame with MACD indicator
     '''
 
     if len(data) < max(fast_macd, slow_macd, indicator_macd):
         print('Недостаточный период для анализа!')
+        if create_plot:
+            return data, None
         return data
 
     data_copy = data.copy()
@@ -135,14 +146,14 @@ def add_moving_average_convergence_divergence(data, fast_macd=12, slow_macd=26, 
 
 
 # Find average price in data
-def calculate_and_display_average_price(data):
+def calculate_and_display_average_price(data: pd.DataFrame):
     data_prices = (data['Close'].iloc[i] for i in range(len(data['Close'])))  # Fetch all prices
     data_sum_prices = sum(data_prices)  # Find sum of prices
     print(f'Средняя цена акций за данный период: {data_sum_prices / len(data["Close"])}')  # Print out average sum
 
 
 # Count divination of price and notify, if threshold is more than divination
-def notify_if_strong_fluctuations(data, threshold = 5):
+def notify_if_strong_fluctuations(data: pd.DataFrame, threshold=5):
     '''
     Function analyzes closing prices dataframe by mathematical statistic's instruments and notify if price fluctuation was more than current threshold.
     First, aligns the prices in the frame. Next, calculates the mathematical average.
