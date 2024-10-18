@@ -2,8 +2,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def create_and_save_plot(data, ticker, period, filename=None):
+def create_and_save_plot(data, ticker, period, filename=None, style=None):
     plt.figure(figsize=(10, 6))
+    if style is not None:
+        plt.style.use(style)
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):

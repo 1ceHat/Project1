@@ -68,7 +68,7 @@ def add_relative_strength_index(data: pd.DataFrame, window_size=5, high_level=80
     :param create_plot: default False, if True will make a plot and return it
     :return: DataFrame with RSI indicator if create_plot=False. If create_plot=True will return (DataFrame, PyPlot.show func)
     '''
-    diff = data['Close'].diff()
+    diff = data.copy()['Close'].diff()
 
     up, down = diff.copy(), diff.copy()
     up[up < 0] = 0
@@ -163,7 +163,7 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, threshold=5):
     '''
 
     # Fetch necessary information
-    data_prices = list(data['Close'].iloc)
+    data_prices = list(data['Close'].copy())
     len_data = len(data_prices)
     min_price = round(min(data_prices)) - 1
     max_price = round(max(data_prices)) + 1
